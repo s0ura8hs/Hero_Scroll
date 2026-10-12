@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; --paper: #edf0e9; --accent: #bcd0bd; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #090c0a; color: var(--paper); font-family: Arial, Helvetica, sans-serif; }
+body { overflow-x: hidden; }
+.scroll-track { position: relative; min-height: 100svh; }
+.viewport {
+  position: relative; height: 100svh; min-height: 560px; width: 100%; overflow: hidden; isolation: isolate;
+  background: radial-gradient(ellipse at 52% 52%, #27322a 0%, #141a15 38%, #090c0a 78%);
+}
+.viewport::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .06;
+  background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 72px 72px; mask-image: linear-gradient(to bottom, black, transparent 92%);
+}
+.stats { position: absolute; z-index: 6; display: flex; gap: 12px; width: min(570px, 46vw); perspective: 800px; }
+.stats-top { top: 7%; right: 6%; justify-content: flex-end; }
+.stats-bottom { bottom: 6%; left: 6%; }
+.stat-card {
+  min-width: 0; flex: 1; padding: clamp(13px, 1.45vw, 22px); border-radius: 12px;
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  opacity: 0; visibility: hidden; transform-origin: center; will-change: transform, opacity;
+  position: relative; overflow: hidden; border: 1px solid rgba(226, 236, 222, .14);
+  box-shadow: 0 8px 22px rgba(0,0,0,.16);
+  transition: border-color .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+.stat-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,.28) 48%, transparent 72%);
+  transform: translateX(-120%); 
+}
+.stat-card:hover { border-color: rgba(226,236,222,.6); box-shadow: 0 14px 36px rgba(0,0,0,.25); filter: brightness(1.08); }
+.stat-card:hover::after { opacity: 1; transform: translateX(120%); transition: transform .65s ease, opacity .2s ease; }
+.stat-card strong { font-size: clamp(29px, 3.8vw, 52px); font-weight: 750; line-height: .95; letter-spacing: -.055em; }
+.stat-card span { font-size: clamp(9px, .92vw, 12px); line-height: 1.35; max-width: 210px; }
+.lime { background: #dce7d7; color: #18211b; }
+.charcoal { background: #aebdaf; color: #18211b; }
+.blue { background: #c8d6c6; color: #111a14; }
+.orange { background: #8fa491; color: #18211b; }
+.road {
+  position: absolute; z-index: 2; left: -4%; width: 108%; top: 29%; height: 43%;
+  background: linear-gradient(to bottom, #171c18, #30352f 45%, #222722);
+  border-top: 1px solid #667066; border-bottom: 1px solid #596258; overflow: hidden;
+  box-shadow: 0 20px 55px rgba(0,0,0,.25);
+}
+.curb { position: absolute; left: 0; width: 100%; height: 10px; background: repeating-linear-gradient(90deg, #c5cec3 0 39px, #596d5b 39px 78px); opacity: .8; }
+.curb-top { top: 0; }
+.curb-bottom { bottom: 0; }
+.road-dashes { position: absolute; top: 51%; left: -15%; width: 150%; height: 2px; background: repeating-linear-gradient(90deg, #d5ded3 0 48px, transparent 48px 96px); opacity: .45; will-change: transform; }
+.welcome-zone { position: absolute; z-index: 3; left: 5%; right: 2.5%; top: 51%; transform: translateY(-50%); }
+.welcome-track { position: relative; width: 100%; overflow: hidden; white-space: nowrap; font-size: clamp(36px, 6.65vw, 98px); font-weight: 850; line-height: .95; letter-spacing: -.055em; }
+.welcome-base { color: transparent; }
+.welcome-reveal {
+  position: absolute; inset: 0; color: #e2e9df; clip-path: inset(0 100% 0 0);
+  will-change: clip-path; text-shadow: 0 2px 14px rgba(0,0,0,.22);
+}
+.car {
+  position: absolute; z-index: 5; left: 0; top: 34%;
+  width: min(34vw, 520px); will-change: transform; pointer-events: none;
+}
+.car img { display: block; width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 18px 22px rgba(0,0,0,.58)); }
+@media (max-width: 700px) {
+  .viewport { min-height: 560px; }
+  .stats { width: 88%; gap: 8px; }
+  .stats-top { top: 7%; right: 6%; }
+  .stats-bottom { bottom: 6%; left: 6%; }
+  .stat-card { padding: 11px 9px; border-radius: 9px; gap: 6px; }
+  .stat-card strong { font-size: clamp(25px, 6.8vw, 36px); }
+  .stat-card span { font-size: 8px; }
+  .road { top: 29%; height: 43%; }
+  .car { top: 35%; width: 56vw; }
+  .welcome-zone { left: 5%; right: 2%; }
+  .welcome-track { font-size: clamp(25px, 7vw, 51px); letter-spacing: -.045em; }
+}
+@media (max-height: 650px) and (min-width: 701px) {
+  .stats-top { top: 5%; }
+  .stats-bottom { bottom: 4%; }
+  .stat-card { padding: 10px 14px; }
+  .road { top: 27%; height: 46%; }
+  .car { top: 32%; width: min(33vw, 490px); }
+  .welcome-zone { top: 53%; }
+  .welcome-track { font-size: clamp(32px, 6vw, 76px); }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+
+/* Hide the Next.js development indicator in local development. */
+nextjs-portal { display: none !important; }
