@@ -34,24 +34,30 @@ export default function Home() {
         }
       });
 
+      // Reveal the full phrase early enough that "FIZZ" is never clipped at the finish.
       drive.fromTo(".welcome-reveal",
         { clipPath: "inset(0 100% 0 0)" },
         { clipPath: "inset(0 0% 0 0)", ease: "none", duration: 0.72 },
         0.04
       );
 
+      // The car traverses nearly the full viewport and finishes at the right edge,
+      // aligned with the final letters rather than leaving a vacant stretch of road.
       drive.fromTo(".car",
         { x: () => -window.innerWidth * 0.12 },
         { x: () => window.innerWidth * 0.72, ease: "none", duration: 0.86 },
         0
       );
 
+      // Motion in the road markings adds speed while the viewport stays pinned.
       drive.fromTo(".road-dashes",
         { x: 0 },
         { x: () => -window.innerWidth * 0.85, ease: "none", duration: 0.78 },
         0
       );
 
+      // Stats react in sequence as the car reaches each checkpoint, then fade back out.
+      // Their animation is on the same scroll timeline, so the cards never move the page.
       const checkpoints = [
         { selector: ".stat-1", at: 0.08 },
         { selector: ".stat-2", at: 0.28 },
@@ -91,15 +97,15 @@ export default function Home() {
           <div className="road-dashes" />
           <div className="welcome-zone" aria-label="Welcome Itz Fizz">
             <div className="welcome-track">
-              <div className="welcome-base">WELCOME ITZFIZZ</div>
-              <div className="welcome-reveal">WELCOME ITZFIZZ</div>
+              <div className="welcome-base">WELCOME ITZ FIZZ</div>
+              <div className="welcome-reveal">WELCOME ITZ FIZZ</div>
             </div>
           </div>
           <div className="curb curb-bottom" />
         </div>
 
         <div className="car" aria-hidden="true">
-          <img src="/car.png" alt="" />
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/car.png`} alt="" />
         </div>
 
         <div className="stats stats-bottom">
